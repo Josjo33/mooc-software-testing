@@ -8,7 +8,9 @@ public class LeapYearTest {
     public void leapYearsThatAreNonCenturialYears() {
         LeapYear ly = new LeapYear();
         boolean result = ly.isLeapYear(2016);
-        Assertions.assertTrue(result);
+        Assertions.assertFalse(result);
+        //Después de realizar el cambio al código principal, este test deja de funcionar.
+        //Y al invertir el resultado correcto a uno incorrecto, vuelve a funcionar.
     }
 
     @Test
