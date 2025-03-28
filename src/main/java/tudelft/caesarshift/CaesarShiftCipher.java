@@ -2,25 +2,32 @@ package tudelft.caesarshift;
 
 public class CaesarShiftCipher {
 
-    public String CaesarShiftCipher(String message, int shift){
+    public String encrypt(String message, int shift) {
         StringBuilder sb = new StringBuilder();
-        char currentChar;
-        int length = message.length();
 
-        shift = shift%26;
+        // Asegurar que el shift esté dentro del rango [0, 25]
+        shift = shift % 26;
 
-        for(int i = 0; i < length; i++){
-            currentChar = message.charAt(i);
-           
-            sb.append(currentChar);
-            if (currentChar > 'z' || currentChar < 'a') {
-                return "invalid";
-            } else if ((char) (currentChar + shift) > 'z') {
-                currentChar = (char) (currentChar - 26);
-            } else if ((char) (currentChar + shift) < 'a'){
-                currentChar = (char) (currentChar + 26);
+        for (char currentChar : message.toCharArray()) {
+            if (currentChar == ' ') {
+                sb.append(' '); // Mantener espacios sin cambios
+            } else if (currentChar >= 'a' && currentChar <= 'z') {
+                // Aplicar el desplazamiento
+                char shiftedChar = (char) (currentChar + shift);
+
+                // Manejo de desbordamiento por la derecha ('z' → 'a')
+                if (shiftedChar > 'z') {
+                    shiftedChar = (char) (shiftedChar - 26);
+                }
+                // Manejo de desbordamiento por la izquierda ('a' → 'z')
+                if (shiftedChar < 'a') {
+                    shiftedChar = (char) (shiftedChar + 26);
+                }
+
+                sb.append(shiftedChar);
+            } else {
+                return "invalid"; // Si hay caracteres no permitidos, retorna "invalid"
             }
-            sb.append((char) (currentChar + shift));
         }
 
         return sb.toString();
